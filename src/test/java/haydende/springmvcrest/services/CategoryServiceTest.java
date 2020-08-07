@@ -19,7 +19,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
-class CategoryServiceImplTest {
+class CategoryServiceTest {
 
     private static final Long ID = Long.valueOf(1L);
     private static final String NAME = "Dried";
