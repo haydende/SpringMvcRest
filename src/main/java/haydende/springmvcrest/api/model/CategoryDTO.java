@@ -1,4 +1,4 @@
-package haydende.springmvcrest.model;
+package haydende.springmvcrest.api.model;
 
 import lombok.Data;
 
