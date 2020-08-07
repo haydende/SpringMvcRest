@@ -1,4 +1,4 @@
-package haydende.springmvcrest.controllers;
+package haydende.springmvcrest.controllers.v1;
 
 import haydende.springmvcrest.api.model.CategoryDTO;
 import haydende.springmvcrest.api.model.CategoryListDTO;

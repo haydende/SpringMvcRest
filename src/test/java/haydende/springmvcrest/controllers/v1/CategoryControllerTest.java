@@ -1,7 +1,6 @@
-package haydende.springmvcrest.controllers;
+package haydende.springmvcrest.controllers.v1;
 
 import haydende.springmvcrest.api.model.CategoryDTO;
-import haydende.springmvcrest.repositories.CategoryRepository;
 import haydende.springmvcrest.services.CategoryService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +16,6 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
