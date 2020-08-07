@@ -10,6 +10,7 @@ class CategoryMapperTest {
 
     public static final String NAME = "Dried";
     public static final Long ID = Long.valueOf(1L);
+
     CategoryMapper categoryMapper = CategoryMapper.INSTANCE;
 
     @Test
