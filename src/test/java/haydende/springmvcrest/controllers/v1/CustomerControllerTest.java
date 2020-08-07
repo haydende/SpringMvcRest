@@ -1,5 +1,6 @@
 package haydende.springmvcrest.controllers.v1;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import haydende.springmvcrest.api.model.CustomerDTO;
 import haydende.springmvcrest.services.CustomerService;
 import org.json.JSONString;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.json.BasicJsonParser;
 import org.springframework.boot.test.json.BasicJsonTester;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -85,5 +87,20 @@ public class CustomerControllerTest {
             .andExpect(status().isCreated())
             .andExpect(jsonPath("$.name", equalTo(NAME)))
             .andExpect(jsonPath("$.customer_url", equalTo("/api/v1/customers/1")));
+    }
+
+    /**
+     * Method for converting Java Object into JSON Strings.
+     * @param obj Object to convert
+     * @return JSON String object
+     */
+    public static String asJsonString(final Object obj) {
+        try {
+            final ObjectMapper mapper = new ObjectMapper();
+            final String jsonContent = mapper.writeValueAsString(obj);
+            return jsonContent;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
