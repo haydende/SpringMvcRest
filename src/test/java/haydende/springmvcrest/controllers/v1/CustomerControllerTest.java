@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import haydende.springmvcrest.api.model.CustomerDTO;
 import haydende.springmvcrest.domain.Customer;
 import haydende.springmvcrest.services.CustomerService;
+import haydende.springmvcrest.services.ResourceNotFoundException;
 import org.json.JSONString;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,7 +44,9 @@ public class CustomerControllerTest {
     @BeforeEach
     public void setup() throws Exception {
         MockitoAnnotations.initMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(customerController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(customerController)
+                .setControllerAdvice(new RestResponseEntityExceptionHandler())
+                .build();
     }
 
     @Test
@@ -123,9 +126,16 @@ public class CustomerControllerTest {
 
     @Test
     public void testDeleteCustomer() throws Exception {
-
         mockMvc.perform(delete("/api/v1/customers/" + ID))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testGetCustomerByNameNotFound() throws Exception {
+        when(customerService.getCustomerByName(anyString())).thenThrow(ResourceNotFoundException.class);
+
+        mockMvc.perform(get("/api/v1/customers/foo"))
+                .andExpect(status().is4xxClientError());
     }
 
     /**
