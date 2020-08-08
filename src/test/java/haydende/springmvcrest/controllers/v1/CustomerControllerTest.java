@@ -2,6 +2,7 @@ package haydende.springmvcrest.controllers.v1;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import haydende.springmvcrest.api.model.CustomerDTO;
+import haydende.springmvcrest.domain.Customer;
 import haydende.springmvcrest.services.CustomerService;
 import org.json.JSONString;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,11 +22,9 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 public class CustomerControllerTest {
@@ -102,6 +101,31 @@ public class CustomerControllerTest {
             .andExpect(status().isCreated())
             .andExpect(jsonPath("$.name", equalTo(NAME)))
             .andExpect(jsonPath("$.customer_url", equalTo("/api/v1/customers/1")));
+    }
+
+    @Test
+    public void testPatchCustomer() throws Exception {
+        CustomerDTO customer = new CustomerDTO();
+        customer.setName(NAME);
+
+        CustomerDTO returnDTO = new CustomerDTO();
+        returnDTO.setName(NAME);
+        returnDTO.setCustomerUrl("/api/v1/customers/1");
+
+        when(customerService.patchCustomer(anyLong(), any(CustomerDTO.class))).thenReturn(returnDTO);
+
+        mockMvc.perform(patch("/api/v1/customers/1")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(asJsonString(customer)))
+                .andExpect(jsonPath("$.name", equalTo(NAME)))
+                .andExpect(jsonPath("$.customer_url", equalTo("/api/v1/customers/1")));
+    }
+
+    @Test
+    public void testDeleteCustomer() throws Exception {
+
+        mockMvc.perform(delete("/api/v1/customers/" + ID))
+                .andExpect(status().isOk());
     }
 
     /**

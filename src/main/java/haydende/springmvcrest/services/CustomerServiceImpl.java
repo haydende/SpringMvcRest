@@ -71,6 +71,11 @@ public class CustomerServiceImpl implements CustomerService {
         }).orElseThrow(RuntimeException::new);
     }
 
+    @Override
+    public void deleteCustomerById(Long id) {
+        customerRepository.deleteById(id);
+    }
+
     /**
      * Method for saving a Customer instance and returning back the DTO version.
      * @param customerToSave Customer instance
