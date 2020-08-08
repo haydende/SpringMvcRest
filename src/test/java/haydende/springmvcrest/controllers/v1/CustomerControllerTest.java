@@ -21,6 +21,7 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -29,6 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class CustomerControllerTest {
 
+    private static final Long ID = Long.valueOf(1L);
     private static final String NAME = "Hayden";
 
     @Mock
@@ -68,6 +70,19 @@ public class CustomerControllerTest {
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.name", equalTo(NAME)));
+    }
+
+    @Test
+    public void testGetCustomerById() throws Exception {
+        CustomerDTO customer = new CustomerDTO();
+        customer.setId(ID);
+
+        when(customerService.getCustomerById(anyLong())).thenReturn(customer);
+
+        mockMvc.perform(get("/api/v1/customers/" + ID)
+            .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", equalTo(1)));
     }
 
     @Test
